@@ -12,15 +12,25 @@
 
 <div id="app-content">
     <div class="card px-4 py-4">
-        <h1 class="mb-4">Users</h1>
-
+        <div class="row">
+            <div class="col">
+            <h1 class="mb-4">Users</h1>
+            </div>
+            <div class="col text-end">
+                <a href="{{route('users.archived')}}"class="btn btn-primary">Trashed Users</a>
+            </div>
+        </div>
+        <form action="{{url('search')}}"method="get" align="centre">
+            <input type="search"name="search"placeholder="search by name or email"></input>
+            <input type="submit"value="search">
+        </form>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             @foreach ($users as $user)
-                <div class="col d-flex">
+                <div class="col d-flex user-card">
                     <div class="card flex-fill shadow-sm" style="min-width: 300px;">
                         <div class="card-body">
-                            <p class="mb-2"><strong>Name:</strong> {{ $user->name }}</p>
-                            <p class="mb-2"><strong>Email:</strong> {{ $user->email }}</p>
+                            <p class="mb-2 user-name"><strong>Name:</strong> {{ $user->name }}</p>
+                            <p class="mb-2 user-email"><strong>Email:</strong> {{ $user->email }}</p>
                             <p class="mb-2"><strong>Role:</strong> {{ ucfirst($user->role) }}</p>
                             <p class="mb-2"><strong>Email Verified:</strong> {{ $user->email_verified_at ? 'Yes' : 'No' }}</p>
                         </div>
@@ -179,5 +189,7 @@ $(document).ready(function () {
     });
 });
 </script>
+
+
 
 @endsection

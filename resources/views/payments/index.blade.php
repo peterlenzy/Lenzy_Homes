@@ -12,8 +12,18 @@
 
 <div id="app-content">
     <div class="card px-4 py-4">
+        <div class="row">
+        <div class="col">
         <h1 class="mb-4">Payments</h1>
-
+        </div>
+        <div class="col text-end">
+            <a href="{{route('payments.archived')}}"class="btn btn-primary">Trashed Payments</a>
+        </div>
+        </div>
+        <form action="{{url('search_payment')}}"method="get">
+            <input type="search"name="search_payment"placeholder="search_payment"></input>
+            <input type="submit"value="search_payment"></input>
+        </form>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
             @foreach ($payments as $payment)
                 <div class="col d-flex">

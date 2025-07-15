@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="app-content">
-    <div class="container-md border py-0">
+    <!-- <div class="container-md border py-0"> -->
 
     <h1> About The Rental Management Company</hi><br>
 <h2>Who Are We?</h2><br>

@@ -3,7 +3,6 @@ use App\Http\Controllers\ImageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +24,12 @@ Route::get('/aboutus', [
     'as' => 'aboutus',
     'uses' => function () {
         return view('aboutus');
+    }
+])->middleware(['auth', 'verified']);
+Route::get('/help_center', [
+    'as' => 'help_center',
+    'uses' => function () {
+        return view('help_center');
     }
 ])->middleware(['auth', 'verified']);
 Route::get('/contactus', [
@@ -80,6 +85,11 @@ Route::middleware('auth')->group(function () {
 
 // House Routes
 Route::middleware('auth')->group(function () {
+
+    Route::get('/search_house', [
+        'as' => 'search_house',
+        'uses' => 'App\Http\Controllers\HouseController@search_house'
+    ]);
     Route::get('/houses', [
         'as' => 'houses.index',
         'uses' => 'App\Http\Controllers\HouseController@index'
@@ -102,29 +112,14 @@ Route::middleware('auth')->group(function () {
         'uses' => 'App\Http\Controllers\HouseController@destroy'
     ]);
 });
-
-// Client Routes
-Route::middleware('auth')->group(function () {
-    Route::post('/clients/create', [
-        'as' => 'clients.store',
-        'uses' => 'App\Http\Controllers\ClientController@store'
-    ]);
-    Route::get('/clients/show', [
-        'as' => 'client.show',
-        'uses' => 'App\Http\Controllers\ClientController@show'
-    ]);
-    Route::get('/clients/edit', [
-        'as' => 'clients.edit',
-        'uses' => 'App\Http\Controllers\ClientController@edit'
-    ]);
-    Route::delete('/clients/delete', [
-        'as' => 'client.delete',
-        'uses' => 'App\Http\Controllers\ClientController@delete'
-    ]);
-});
 // Payment Routes
 Route::middleware('auth')->group(function () {
-    Route::get('/payments/create', [
+
+    Route::get('/search_payment', [
+        'as' => 'search_payment',
+        'uses' => 'App\Http\Controllers\PaymentController@search_payment'
+    ]);
+    Route::get('/payments/{house}', [
         'as' => 'payments.create',
         'uses' => 'App\Http\Controllers\PaymentController@create'
     ]);
@@ -163,7 +158,7 @@ Route::middleware(RestrictToAdmin::class)->group(function () {
     ]);
 });
 Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function () {
-    Route::get('/payments/index', [
+    Route::get('/payment/index', [
         'as' => 'payments.index',
         'uses' => 'App\Http\Controllers\PaymentController@index'
     ]);
@@ -178,26 +173,19 @@ Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function
     Route::delete('/payments/{payment}', [
         'as' => 'payments.destroy',
         'uses' => 'App\Http\Controllers\PaymentController@destroy'
+    ]);Route::get('/search_payment', [
+        'as' => 'search_payment',
+        'uses' => 'App\Http\Controllers\PaymentController@search_payment'
     ]);
+     Route::get('/payment/archived', [
+        'as' => 'payments.archived',
+        'uses' => 'App\Http\Controllers\PaymentController@archived'
+    ]);
+     Route::post('/payments/{payment}/restore', [
+        'as' => 'restore',
+        'uses' => 'App\Http\Controllers\PaymentController@restore'
+    ])->withTrashed();
 });
-// Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function () {
-//     Route::post('/clients/create', [
-//         'as' => 'clients.store',
-//         'uses' => 'App\Http\Controllers\ClientController@store'
-//     ]);
-//     Route::get('/clients/index', [
-//         'as' => 'client.index',
-//         'uses' => 'App\Http\Controllers\ClientController@show'
-//     ]);
-//     Route::patch('/clients/edit', [
-//         'as' => 'clients.edit',
-//         'uses' => 'App\Http\Controllers\ClientController@edit'
-//     ]);
-//     Route::delete('/clients/delete', [
-//         'as' => 'client.delete',
-//         'uses' => 'App\Http\Controllers\ClientController@delete'
-//     ]);
-// });
 Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function () {
 
     Route::get('/houses/create', [
@@ -220,6 +208,18 @@ Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function
         'as' => 'houses.destroy',
         'uses' => 'App\Http\Controllers\HouseController@destroy'
     ]);
+    Route::get('/houses/archived', [
+        'as' => 'houses.archived',
+        'uses' => 'App\Http\Controllers\HouseController@archived'
+    ]);
+     Route::get('/houses/Dimension_index', [
+        'as' => 'houses.Dimension_view',
+        'uses' => 'App\Http\Controllers\HouseController@Dimension_index'
+    ]);
+    Route::post('/houses/{house}/restore', [
+        'as' => 'houses.restore',
+        'uses' => 'App\Http\Controllers\HouseController@restore'
+    ])->withTrashed();
 });
 Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function () {
       Route::get('/users/create', [
@@ -229,6 +229,10 @@ Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function
     Route::post('/users/store', [
         'as' => 'users.store',
         'uses' => 'App\Http\Controllers\UserController@store'
+    ]);
+    Route::get('/search', [
+        'as' => 'search',
+        'uses' => 'App\Http\Controllers\UserController@search'
     ]);
     Route::get('/users/index', [
         'as' => 'users.index',
@@ -250,6 +254,15 @@ Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function
         'as' => 'users.destroy',
         'uses' => 'App\Http\Controllers\UserController@destroy'
     ]);
+    Route::get('/users', [
+        'as' => 'users.archived',
+        'uses' => 'App\Http\Controllers\UserController@archived'
+    ]);
+    Route::post('/users/{user}/restore', [
+        'as' => 'restore',
+        'uses' => 'App\Http\Controllers\UserController@restore'
+    ])->withTrashed();
+
 });
 Route::get('/images/create', [ImageController::class, 'create'])->name('images.create');
 Route::post('/images', [ImageController::class, 'store'])->name('images.store');

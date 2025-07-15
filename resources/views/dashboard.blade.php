@@ -17,6 +17,7 @@
   <link href="../build/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../build/assets/css/theme.min.css">
   <title>Lenzy Homes App</title>
+  @vite(['resources/js/3d_view.js'])
 </head>
 <body>
   <main id="main-wrapper" class="main-wrapper">
@@ -24,7 +25,7 @@
       <div class="navbar-custom navbar navbar-expand-lg">
         <div class="container-fluid px-0">
           <a class="navbar-brand d-block d-md-none" href="#">
-            <img src="{{ asset('assets/images/brand/logo/home logo.png')}}" alt="Image">
+            <img src="{{ asset('assets/images/shome logo.png')}}" alt="Image">
           </a>
           <a id="nav-toggle" href="#!" class="ms-auto ms-md-0 me-0 me-lg-3 ">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-text-indent-left text-muted" viewBox="0 0 16 16">
@@ -32,9 +33,9 @@
             </svg>
           </a>
           <div class="d-none d-md-none d-lg-block">
-            <form action="#">
+            <form action="{{url('search_house')}}"method="get">
               <div class="input-group ">
-                <input class="form-control rounded-3" type="search" value="" id="searchInput" placeholder="Search">
+                <input class="form-control rounded-3" type="search" name="search_house" id="searchInput" placeholder="Search"></input>
                 <span class="input-group-append">
                   <button class="btn ms-n10 rounded-0 rounded-end" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search text-dark">
@@ -76,26 +77,26 @@
                     <ul class="list-group list-group-flush notification-list-scroll">
                       <li class="list-group-item bg-light">
                         <a href="#!" class="text-muted">
-                          <h5 class=" mb-1">Edwin Mutua</h5>
-                          <p class="mb-0">Mauris blandit erat id nunc blandit, ac eleifend dolor pretium.</p>
+                          <h5 class=" mb-1">Lyl Wayne</h5>
+                          <p class="mb-0">I am pleased with your services,, bingo!!.</p>
                         </a>
                       </li>
                       <li class="list-group-item">
                         <a href="#!" class="text-muted">
-                          <h5 class=" mb-1">Neha Kannned</h5>
-                          <p class="mb-0">Proin at elit vel est condimentum elementum id in ante. Maecenas et sapien metus.</p>
+                          <h5 class=" mb-1">Nelius Mwangi</h5>
+                          <p class="mb-0">Logged out.</p>
                         </a>
                       </li>
                       <li class="list-group-item">
                         <a href="#!" class="text-muted">
-                          <h5 class=" mb-1">Nirmala Chauhan</h5>
-                          <p class="mb-0">Morbi maximus urna lobortis elit sollicitudin sollicitudieget elit vel pretium.</p>
+                          <h5 class=" mb-1">John Doe</h5>
+                          <p class="mb-0">Purchased a house now.</p>
                         </a>
                       </li>
                       <li class="list-group-item">
                         <a href="#!" class="text-muted">
-                          <h5 class=" mb-1">Sina Ray</h5>
-                          <p class="mb-0">Sed aliquam augue sit amet mauris volutpat hendrerit sed nunc eu diam.</p>
+                          <h5 class=" mb-1">Elias Maina</h5>
+                          <p class="mb-0">Requests for a house in Nyeri.</p>
                         </a>
                       </li>
                     </ul>
@@ -147,7 +148,7 @@
     <div class="navbar-vertical navbar nav-dashboard">
       <div class="h-100" data-simplebar>
         <a class="navbar-brand" href="#">
-          <img src="{{ asset('build/assets/images/smarthome.png')}}" alt="Lenzy Homes logo">
+          <img src="{{ asset('build/assets/images/smart home.png')}}" alt="Lenzy Homes logo">
         </a>
         <ul class="navbar-nav flex-column" id="sideNavbar">
           <li class="nav-item">
@@ -156,6 +157,16 @@
           <li class="nav-item">
             <a class="nav-link" href="{{ route('houses.index') }}">
               <i data-feather="home" class="nav-icon me-2 icon-xxs"></i> View Houses
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('houses.Dimension_view') }}">
+              <i data-feather="home" class="nav-icon me-2 icon-xxs"></i> 3Dimension View
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/help_center">
+              <i data-feather="message-square" class="nav-icon me-2 icon-xxs"></i> Help Center
             </a>
           </li>
           <li class="nav-item">
@@ -170,15 +181,17 @@
           </li>
           @auth
           @if(auth()->user()->role === 'admin')
+             <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.dashboard') }}">
+              <i data-feather="sliders" class="nav-icon me-2 icon-xxs"></i> Admin Dashboard
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link collapsed" href="#!" data-bs-toggle="collapse" data-bs-target="#navinvoice" aria-expanded="false" aria-controls="navinvoice">
               <i data-feather="settings" class="nav-icon me-2 icon-xxs"></i>Management Configurations
             </a>
             <div id="navinvoice" class="collapse" data-bs-parent="#sideNavbar">
               <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
-                </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{{ route('houses.index') }}">House Management</a>
                 </li>

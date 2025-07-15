@@ -7,18 +7,40 @@ use App\Models\Houses;
 use App\Models\HouseImage;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ImageController;
+use Illuminate\Support\Facades\DB;
 
 class HouseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function search_house(Request $request)
+    {
+        $search_house=$request->search_house;
+        $houses=Houses::where('name','like','%'.$search_house.'%')->orwhere('location','like','%'.$search_house.'%')->get();
+        return view('houses.index',compact('houses'));
+
+    }
     public function index(Houses $houses)
     {
         $houses = Houses::all();
         return view('houses.index', compact('houses'));
     }
+    public function archived(Request $request)
+    {
+        $houses = Houses::onlyTrashed()->get();
+        return view('houses.archived', compact('houses'));
+    }
+    public function restore(Request $request ,Houses $house)
+    {
+        $house->restore();
+        return redirect()->route('houses.index');
 
+    }
+    public function Dimension_index(Request $request ,Houses $house)
+    {
+        return view('houses.Dimension_view');
+    }
     public function create()
     {
         return view('houses.create');
@@ -140,9 +162,24 @@ class HouseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Houses $house)
+    public function destroy($house)
     {
-        $house->delete();
-        return redirect()->route('houses.index')->with('success', 'House deleted successfully!');
+        $house_dtl = DB::table('houses')->where('id', $house)->first();
+    if (!$house_dtl) {
+        return redirect()->back()->with('error', 'User not found');
     }
+
+    if ($house_dtl->deleted_at) {
+        // Hard delete if trashed
+        DB::table('houses')->where('id', $house)->delete();
+        $message = 'House permanently deleted successfully';
+    } else {
+        // Soft delete if active
+        $active_house=Houses::where('id', $house)->first();
+        $active_house->delete();
+        $message = 'House soft deleted successfully';
+    }
+
+     return redirect()->route('houses.index')->with('success', 'House soft deleted successfully!');
+}
 }

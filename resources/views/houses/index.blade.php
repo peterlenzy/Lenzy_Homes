@@ -11,8 +11,18 @@
 </style>
 <div id="app-content">
     <div class="card">
-        <h1 class="mb-4">Available Houses</h1>
-
+        <div class="row">
+            <div class="col">
+            <h1 class="mb-4">Available Houses</h1>
+            </div>
+            @auth
+            @if(auth()->user()->role === 'admin')
+            <div class="col text-end mt-3">
+                 <a href="{{route('houses.archived')}}"class="btn btn-primary">Trashed Houses</a>
+            </div>
+            @endif
+            @endauth
+        </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
             @foreach ($houses as $house)
                 <div class="col">
@@ -54,7 +64,7 @@
                             <p class="card-text mt-2">{{ Str::limit($house->description, 80) }}</p>
                         </div>
                         <div class="card-footer d-flex gap-2 flex-wrap">
-                            <a href="{{ route('payments.create') }}" class="btn btn-primary mt-2">Purchase House</a>
+                            <a href="{{ route('payments.create',['house' => $house->id]) }}" class="btn btn-primary mt-2">Purchase House</a>
                             @auth
                                 @if(auth()->user()->role === 'admin')
                                     <button class="btn btn-info mt-2" data-bs-toggle="modal" data-bs-target="#viewHouseModal{{ $house->id }}">
@@ -77,6 +87,7 @@
                     </div>
                 </div>
 
+
                 <!-- Edit Modal -->
                 <div class="modal fade" id="editHouseModal{{ $house->id }}" tabindex="-1" aria-labelledby="editHouseModalLabel{{ $house->id }}" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -89,13 +100,25 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="image{{ $house->id }}" class="form-label">Image</label>
-                                        <input type="file" class="form-control" id="image{{ $house->id }}" name="image" accept="image/*">
-                                        @if($house->img_path)
-                                            <img src="{{ asset('public/' . $house->img_path) }}" alt="{{ $house->name }}" width="100" class="mt-2">
+                                    @php
+                                        $imageTypes = ['frontview', 'backview', 'rightview', 'leftview', 'topview', 'interior'];
+                                    @endphp
+
+                                    @foreach ($imageTypes as $type)
+                                        <div class="mb-3">
+                                        <label class="form-label text-capitalize">{{ $type }}</label><br>
+                                        @php
+                                            $image = $house->images->firstWhere('type', $type);
+                                        @endphp
+                                        @if ($image)
+                                            <div class="mb-2">
+                                                <img src="{{ asset($image->img_path) }}" alt="{{ $type }} image" class="img-thumbnail" style="height: 120px;">
+                                            </div>
                                         @endif
-                                    </div>
+                                        <input type="file" class="form-control" name="images[{{ $type }}]" accept="image/*">
+                                        <small class="text-muted">Leave blank to keep current image</small>
+                                        </div>
+                                    @endforeach
                                     <div class="mb-3">
                                         <label for="name{{ $house->id }}" class="form-label">Name</label>
                                         <input type="text" class="form-control" id="name{{ $house->id }}" name="name" value="{{ old('name', $house->name) }}" required>

@@ -23,8 +23,8 @@ class Clients extends Model
     ];
     public $timestamps = true;
     protected $primaryKey = 'id';
-    public function Payments()
-    {
-        return $this->hasMany('App\Models\Payments', 'Client_id');
-    }
+    // public function Payments()
+    // {
+    //     return $this->hasMany('App\Models\Payments', 'Client_id');
+    // }
 }

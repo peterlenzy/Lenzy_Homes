@@ -3,25 +3,47 @@
 namespace App\Http\Controllers;
 use App\Models\Payments;
 use Illuminate\Http\Request;
+use App\Models\Houses;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+     public function archived(Request $request)
+    {
+        $payments = Payments::onlyTrashed()->get();
+        return view('payments.archived', compact('payments'));
+    }
+     public function restore(Request $request,Payments $payment)
+    {
+
+        $payment->restore();
+        return redirect()->route('payments.index');
+    }
+    public function search_payment(Request $request)
+    {
+        $search_payment =$request->search_payment;
+        $payments=Payments::where('transaction_id','like','%'.$search_payment.'%')->orwhere('date_of_payment','like','%'.$search_payment.'%')->get();
+        return view('payments.index',compact('payments'));
+    }
     public function index()
     {
+
         $payments = Payments::all();
-        return view('payments.index', compact('payments'));
+        // $payments = DB::table('payments')->whereNull('deleted_at')->get();
+        // dd($payments);
+        return view('payments.index',compact('payments'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Payments $payment)
+    public function create(Payments $payment,Houses $house)
     {
-        //
-        return view('payments.create');
+        $house = Houses::findOrFail($house->id);
+        return view('payments.create',compact('house'));
     }
 
     /**
@@ -79,10 +101,25 @@ class PaymentController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function destroy(payments $payment)
+    public function destroy($payment)
     {
-        //
-        $payment->delete();
-        return redirect()->route('payments.index')->with('success', 'payment deleted successfully!');
+        $payment_dtl = DB::table('payments')->where('id', $payment)->first();
+    if (!$payment_dtl) {
+        return redirect()->back()->with('error', 'User not found');
     }
+
+    if ($payment_dtl->deleted_at) {
+        // Hard delete if trashed
+        DB::table('payments')->where('id', $payment)->delete();
+        $message = 'Payment permanently deleted successfully';
+    } else {
+        // Soft delete if active
+        $active_payment=Payments::where('id', $payment)->first();
+        $active_payment->delete();
+        $message = 'Payment soft deleted successfully';
+    }
+
+     return redirect()->route('payments.index')->with('success', 'Payment deleted successfully!');
+}
+
 }

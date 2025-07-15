@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Clients;
+use App\Models\Houses;
 use App\Models\Payments;
 use Illuminate\Http\Request;
 use App\Models\User; // Assuming User model is in this namespace
@@ -24,9 +24,14 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $payments = Payments::all();
-        $users = User::all(); // Fetch all users
-        $clients = Clients::all();
-        return view('admin.dashboard',compact('payments','users','clients'));
+        $stats = [
+            'users_count' => User::count() ?? 0,
+            'houses_count' => Houses::count() ?? 0,
+            'payments_count' => Payments::count() ?? 0
+        ];
+        $users = User::all() ?? collect([]);
+        $houses = Houses::all() ?? collect([]);
+        $payments = Payments::all() ?? collect([]);
+        return view('admin.dashboard',compact('stats', 'users', 'houses', 'payments'));
     }
 }

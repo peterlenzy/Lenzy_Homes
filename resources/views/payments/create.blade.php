@@ -3,9 +3,39 @@
 @section('content')
 <div id="app-content">
 <div class="container">
-    <h1>Create Payment</h1>
+    <div class="row">
+        <div class="col">
+    <div class="card mb-3">
+                <div class="card-header">House Details</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">House Name</label>
+                        <input type="text" class="form-control" value="{{ $house->name }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">city</label>
+                        <input type="text" class="form-control" value="{{ $house->city }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="text" class="form-control" value="{{ $house->price }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" readonly>{{ $house->description }}</textarea>
+                    </div>
+                </div>
+            </div>
+</div>
+<div class="col">
+    <div class="card">
+    <div class="card-header ">
+        <h3>Create Payment</h3>
+    </div>
+    <div class="card-body">
     <form action="{{ route('payments.store') }}" method="POST">
         @csrf
+        <!-- <input type="hidden" name="house_id" value="{{ $house->id }}"> -->
         <div class="mb-3">
             <label for="amount" class="form-label">Amount</label>
             <input type="number" class="form-control" id="amount" name="amount" required>
@@ -33,9 +63,13 @@
             <input type="string"class="form-control" id="transaction_id"name="transaction_id" required>
         </div>
         <div>
-        <button type="submit" class="btn btn-primary">Create Payment</button>
+        <button type="submit" class="btn btn-primary mb-2">Create Payment</button>
         </div>
     </form>
+    </div>
+    </div>
+</div>
+</div>
 </div>
 </div>
 @endsection

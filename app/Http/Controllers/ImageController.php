@@ -13,7 +13,7 @@ class ImageController extends Controller
         return view('create');
     }
 
-    public function store(UploadedFile $image)
+    public function store(UploadedFile $image=null)
     {
 
         if ($image) {
@@ -37,11 +37,12 @@ class ImageController extends Controller
                 'image' => 'build/assets/images/' . $filename,
             ];
         }
+        return [
+                'success' => false,
+                'image' => null
+            ];
 
-        return response()->json([
-            'success' => false,
-            'error' => 'Image upload failed.',
-        ], 400);
+
     }
     public function index()
     {
