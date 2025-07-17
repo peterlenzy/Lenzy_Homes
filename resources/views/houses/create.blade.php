@@ -2,6 +2,8 @@
 @section('title','create house')
 @section('content')
 <div id="app-content">
+    <div class="card">
+
     @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -45,7 +47,12 @@
 <div class="mb-3">
     <label class="form-label">Interior</label>
     <input type="file" class="form-control" name="images[interior]" accept="image/*">
-        </div>
+</div>
+<div class="mb-3">
+    <label class="form-label">3D Model (GLTF/GLB)</label>
+    <input type="file" class="form-control" name="model" accept=".gltf,.glb">
+    <small class="text-muted">Upload a GLTF or GLB file for 3D viewing</small>
+</div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="name" name="name" required>
@@ -83,6 +90,7 @@
     </form>
     <div id="uploadSuccess" class="text-success mt-3"></div>
     <div id="uploadError" class="text-danger mt-3"></div>
+</div>
 </div>
 </div>
 @endsection

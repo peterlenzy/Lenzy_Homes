@@ -8,6 +8,7 @@ use App\Models\HouseImage;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class HouseController extends Controller
 {
@@ -37,10 +38,11 @@ class HouseController extends Controller
         return redirect()->route('houses.index');
 
     }
-    public function Dimension_index(Request $request ,Houses $house)
-    {
-        return view('houses.Dimension_view');
-    }
+    public function view3D(Houses $house)
+{
+    return view('houses.3d_view', compact('house'));
+}
+
     public function create()
     {
         return view('houses.create');
@@ -51,7 +53,7 @@ class HouseController extends Controller
      */
     public function store(Request $request)
     {
-
+// dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'city' => 'required|string|max:255',
@@ -61,6 +63,9 @@ class HouseController extends Controller
             'description' => 'required|string|max:255',
             'status' => 'required|string|max:255',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'model' => 'nullable|file|mimetypes:application/octet-stream,model/gltf-binary,model/gltf+json',
+
+
         ]);
 
         // Save the house record first
@@ -84,7 +89,7 @@ class HouseController extends Controller
             foreach ($request->file('images') as $label => $file) {
                 // dd('6666');
 
-                                    $uploadResult = $imageUploader->store($file);
+                    $uploadResult = $imageUploader->store($file);
 
                     if ($uploadResult['success']) {
 
@@ -96,6 +101,15 @@ class HouseController extends Controller
                     }
 
             }
+
+        }
+        if ($request->hasFile('model'))
+        // dd($request->file('model'));
+
+        {
+            $model_path = $request->file('model')->store('models', 'public');
+            $house->model_path = $model_path;
+            $house->save();
         }
 
         return redirect()->route('houses.index')->with('success', 'House created successfully!');
@@ -132,6 +146,8 @@ class HouseController extends Controller
                 'description' => 'required|string|max:255',
                 'status' => 'required|string|max:255',
                 'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+                'model' => 'nullable|file|mimetypes:model/gltf-binary,model/gltf+json,application/octet-stream,application/gltf-buffer|mimes:glb,gltf'
+,
             ]);
 
             $house->update($validated);
@@ -151,6 +167,15 @@ class HouseController extends Controller
                         }
                     }
                 }
+            }
+            if ($request->hasFile('model')) {
+                if ($house->model_path) {
+                    Storage::delete($house->model_path);
+                }
+
+                $model_path = $request->file('model')->store('public/models');
+                $house->model_path = $model_path;
+                $house->save();
             }
 
             return redirect()->route('houses.index')->with('success', 'House updated successfully!');
@@ -181,5 +206,10 @@ class HouseController extends Controller
     }
 
      return redirect()->route('houses.index')->with('success', 'House soft deleted successfully!');
-}
+    }
+public function getModelPath(Request $request, Houses $house)
+    {
+        $house = Houses::findOrFail($house->id);
+        return response()->json(['model_path' => $house->model_path ? Storage::url($house->model_path) : null]);
+    }
 }

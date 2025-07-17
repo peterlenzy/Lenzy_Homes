@@ -160,11 +160,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ route('houses.Dimension_view') }}">
-              <i data-feather="home" class="nav-icon me-2 icon-xxs"></i> 3Dimension View
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="/help_center">
               <i data-feather="message-square" class="nav-icon me-2 icon-xxs"></i> Help Center
             </a>
