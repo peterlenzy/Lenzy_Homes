@@ -1,4 +1,4 @@
-@extends('dashboard')
+<!-- @extends('dashboard')
 
 @section('content')
 <div class="container">
@@ -33,4 +33,4 @@
         <button type="submit" class="btn btn-primary">Send Message</button>
     </form>
 </div>
-@endsection
+@endsection -->

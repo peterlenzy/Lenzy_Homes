@@ -2,6 +2,7 @@
 @section('title','contact us')
 @section('content')
 <div id="app-content">
+    <div class="container">
         <div class="card mb-4">
             <div class="card-header mb-4">
                 <h1>We would like to have you leave us some message</h1>
@@ -51,6 +52,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </div>
 <style>
     .card-footer {
