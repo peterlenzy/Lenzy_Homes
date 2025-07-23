@@ -159,11 +159,11 @@
               <i data-feather="home" class="nav-icon me-2 icon-xxs"></i> View Houses
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/help_center">
-              <i data-feather="message-square" class="nav-icon me-2 icon-xxs"></i> Help Center
+              <li class="nav-item">
+            <a class="nav-link" href="/chat">
+              <i data-feather="message-square" class="nav-icon me-2 icon-xxs"></i> Chat
             </a>
-          </li>
+           </li>
           <li class="nav-item">
             <a class="nav-link" href="/aboutus">
               <i data-feather="info" class="nav-icon me-2 icon-xxs"></i> About Us

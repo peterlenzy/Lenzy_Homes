@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RestrictToAdmin;
 use App\Models\Houses;
+use App\Livewire\Chat;
 
 // Auth & Dashboard
 Route::get('/', function () {
@@ -145,6 +147,10 @@ Route::middleware('auth')->group(function () {
         'as' => 'payments.delete',
         'uses' => 'App\Http\Controllers\PaymentController@delete'
     ]);
+     Route::get('/chat', function () {
+        return view('chat');
+    })->name('chat');
+
 
 });
 
@@ -217,10 +223,7 @@ Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function
         'as' => 'houses.restore',
         'uses' => 'App\Http\Controllers\HouseController@restore'
     ])->withTrashed();
-    Route::get('/houses/{house}/3d_view', [
-        'as' => 'houses.3d_view',
-        'uses' => 'App\Http\Controllers\HouseController@view3D'
-    ]);
+
 });
 Route::middleware([\App\Http\Middleware\RestrictToAdmin::class])->group(function () {
       Route::get('/users/create', [
@@ -269,22 +272,9 @@ Route::get('/images/create', [ImageController::class, 'create'])->name('images.c
 Route::post('/images', [ImageController::class, 'store'])->name('images.store');
 Route::get('/images', [ImageController::class, 'index'])->name('images.index');
 Route::get('/images/get', [ImageController::class, 'getImages'])->name('images.get');
-
-// Regular access for users
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/help-center', [HelpCenterController::class, 'index'])->name('help.center');
-//     Route::get('/conversation/{id}', [HelpCenterController::class, 'show'])->name('conversation.show');
-//     Route::post('/conversation/{id}/reply', [HelpCenterController::class, 'reply'])->name('conversation.reply');
-//     Route::post('/conversation/start', [HelpCenterController::class, 'start'])->name('conversation.start');
-//     Route::get('/recent-messages', [HelpCenterController::class, 'recentMessages'])->name('messages.recent');
-// });
-
-// // Admin-only
-// Route::middleware(['auth', 'role:admin|editor'])->group(function () {
-//     Route::get('/admin/help-center', [HelpCenterController::class, 'adminPanel'])->name('admin.help.panel');
-// });
-
-
-
+Route::get('/houses/{house}/3d_view', [
+        'as' => 'houses.3d_view',
+        'uses' => 'App\Http\Controllers\HouseController@view3D'
+    ]);
 // Auth scaffolding
 require __DIR__.'/auth.php';
