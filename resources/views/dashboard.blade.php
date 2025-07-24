@@ -17,7 +17,6 @@
   <link href="../build/assets/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../build/assets/css/theme.min.css">
   <title>Lenzy Homes App</title>
-  @vite(['resources/js/3d_view.js'])
 </head>
 <body>
   <main id="main-wrapper" class="main-wrapper">

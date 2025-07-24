@@ -3,12 +3,8 @@
 @section('content')
 <div id="app-content">
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
-    <div class="p-4 sm:p-8 bg-gray shadow sm:rounded-lg py-12">
+<div class="card">
+    <div class="p-4 sm:p-8 bg-gray shadow sm:rounded-lg py-12 ">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="mb-3 text-center">
             <label for="avatarUpload" class="block text-sm font-medium text-gray-700">Profile Image</label>
@@ -48,6 +44,7 @@
             </div>
         </div>
     </div>
+</div>
 </x-app-layout>
 </div>
 
