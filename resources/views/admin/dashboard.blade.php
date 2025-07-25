@@ -6,11 +6,20 @@
     <div class="container-fluid">
         <div class="col-12">
             <div class="container-md border py-0">
+                <div class="card mb-4 bg-primary">
+                    <div class="card-header bg-primary ">
+                        <h1>Admin Dashboard</h1>
+                    </div>
+                    <div class="card-body text-bold text-white">
+                        <p>Welcome you are now loged in as an admin. Here you can manage users, houses, and payments.</p>
+                    </div>
+
+                </div>
                 <!-- Summary Cards -->
                 <div class="row mb-4">
                     <div class="col-md-4">
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-header">Total Users</div>
+                        <div class="card text-dark text-bold bg-primary mb-3">
+                            <div class="card-header"><i data-feather="users" class=" me-2 icon-xs"></i>Total Users Available</div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ $stats['users_count'] }}</h5>
                                 <p class="card-text">Registered Users</p>
@@ -18,8 +27,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card text-white bg-success mb-3">
-                            <div class="card-header">Total Houses</div>
+                        <div class="card text-dark bg-success mb-3">
+                            <div class="card-header"><i data-feather="home" class="nav-icon me-2 icon-xxs"></i>Total Houses Available</div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ $stats['houses_count'] }}</h5>
                                 <p class="card-text">Available Houses</p>
@@ -27,8 +36,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card text-white bg-info mb-3">
-                            <div class="card-header">Total Payments</div>
+                        <div class="card text-dark bg-info mb-3">
+                            <div class="card-header"><i data-feather="dollar-sign" class="nav-icon me-2 icon-xxs"></i>Total Payments Available</div>
                             <div class="card-body">
                                 <h5 class="card-title">{{ $stats['payments_count'] }}</h5>
                                 <p class="card-text">Processed Payments</p>

@@ -15,7 +15,9 @@ class Chat extends Component
     public $newMessage;
     public $messages;
     public $loginId;
+    public $selectedUser_id = null;
     public function mount()
+
     {
         $authUser = auth()->user();
 
@@ -36,6 +38,7 @@ class Chat extends Component
     {
         $this->selectedUser = User::find($user_id);
          $this->loadMessages();
+          $this->selectedUser_id = $user_id;
     }
     public function submit()
     {
@@ -58,7 +61,7 @@ class Chat extends Component
     {
         return
         [
-           "echo-private:chat.{loginId}" => 'newMessageNotification',
+           "echo-private:chat.{$this->loginId}" => 'newMessageNotification',
         ];
     }
     public function newMessageNotification($message)

@@ -118,7 +118,7 @@
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
                 <div class="px-4 pb-0 pt-2">
                   <div class="lh-1">
-                    <h5 class="mb-1">Peter Lenzy</h5>
+                    <h5 class="mb-1">{{$user->name}}</h5>
                     <a href="{{ route('profile.edit') }}" class="text-inherit fs-6">View my profile</a>
                   </div>
                   <div class="dropdown-divider mt-3 mb-2"></div>
@@ -211,18 +211,26 @@
     </div>
   </main>
   <style>
+    .main-wrapper {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
     .navbar-vertical {
       position: left;
       top: 0;
       left: 0;
       height: 100%;
       z-index: 1000;
+      width: 260px;
+    transition: width 0.3s ease;
     }
     .main-content {
-      /* margin-right: 260px; */
-      padding: 80px 20px 60px 20px;
-      min-height: calc(100vh - 60px);
-    }
+  /* flex-grow: 1; */
+  padding: 80px 20px 60px 20px;
+  transition: all 0.3s ease;
+  min-height: calc(100vh - 60px);
+}
     body {
       display: flex;
       flex-direction: column;
@@ -239,6 +247,10 @@
       border-top: 1px solid #dee2e6;
       z-index: 1000;
     }
+    .navbar-vertical.collapsed {
+  width: 0 !important;
+  overflow: hidden;
+}
   </style>
   <footer class="fixed bottom-0 left-0 w-full py-4 bg-white dark:bg-gray-800 text-center text-sm text-black dark:text-white/70 border-t">
     <strong>© {{ date('Y') }} Lenzy Homes App.</strong> All rights reserved.

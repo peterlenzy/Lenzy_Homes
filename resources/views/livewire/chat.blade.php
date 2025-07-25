@@ -1,3 +1,5 @@
+<!-- @vite(['resources/js/app.js']) -->
+
     <div id="app-content">
     <div class="col-12">
     <div class="container-md border py-0">
@@ -5,52 +7,60 @@
         <div class="">
             <h1>Chat Online</h1>
         </div>
+<!--
     <div class="d-flex border rounded-3 shadow overflow-hidden bg-white w-100" style="height: 550px;width: 100vw;">
         <div class="col-3 border-end bg-light">
-            <div class="p-3 fw-bold text-secondary border-bottom text-bold"><i data-feather="users" class=" me-2 icon-xs"></i>users</div>
-            <div class="border-top">
-                <div class="p-3 cursor-pointer hover:bg-primary-subtle transition">
-                    @foreach ($users as $user)
-                   <div
-                                    wire:click="selectUser({{ $user->id }})"
-                                    class="p-3 cursor-pointer text-dark border-bottom hover:bg-primary-subtle transition"
-                                    style="user-select: none;"
-                                >
-                                    <div class="d-flex align-items-center mb-2">
-                                        <img class="rounded-circle me-2"
-                                            id="profile-image-{{ $user->id }}"
-                                            src="{{ asset($user->img_path) }}"
-                                            alt="Profile Image"
-                                            data-user-id="{{ $user->id }}"
-                                            style="width: 32px; height: 32px; object-fit: cover;">
+    <div class="p-3 fw-bold text-secondary border-bottom text-bold"><i data-feather="users" class=" me-2 icon-xs"></i>users</div>
+        <div class="overflow-auto" style="height: 500px;">
+    <div class="border-top"> -->
+            <div class="d-flex border rounded-3 shadow overflow-hidden bg-white w-100" style="height: 550px;width: 100vw;">
+                <div class="col-3 border-end bg-light d-flex flex-column" style="height: 100%;">
+                <div class="p-3 fw-bold text-secondary border-bottom text-bold">
+                    <i data-feather="users" class="me-2 icon-xs"></i>Users </div>
+                <div class="flex-grow-1 overflow-auto">
 
-                                        <div>
-                                            <div class="fw-semibold">{{ $user->name }}</div>
-                                            <div class="fs-6 text-muted">{{ $user->email }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                    @endforeach
+
+        @foreach ($users as $user)
+            <div
+
+                wire:click="selectUser({{ $user->id }})"
+                class="p-3 cursor-pointer text-dark border-bottom transition {{ $selectedUser_id === $user->id ? 'bg-primary text-white' : 'hover:bg-primary-subtle' }}"
+                style="user-select: none;"
+            >
+                <div class="d-flex align-items-center mb-2">
+                    <img class="rounded-circle me-2"
+                        id="profile-image-{{ $user->id }}"
+                        src="{{ asset($user->img_path) }}"
+                        alt="Profile Image"
+                        data-user-id="{{ $user->id }}"
+                        style="width: 32px; height: 32px; object-fit: cover;">
+                    <div>
+                        <div class="fw-bold">{{ $user->name }}</div>
+                        <div class="fs-6 fw-semibold text-muted">{{ $user->email }}</div>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endforeach
+    </div>
 
-        <div class="col-9 d-flex flex-column">
-            <div class="p-3 border-bottom bg-light">
-                <div class="d-flex align-items-center mb-2">
-                                        <img class="rounded-circle me-2"
-                                            id="profile-image-{{ $selectedUser->id }}"
-                                            src="{{ asset($selectedUser->img_path) }}"
-                                            alt="Profile Image"
-                                            data-user-id="{{ $selectedUser->id }}"
-                                            style="width: 32px; height: 32px; object-fit: cover;">
-
-                                        <div>
-                                            <div class="fw-semibold">{{ $selectedUser->name }}</div>
-                                            <div class="fs-6 text-muted">{{ $selectedUser->email }}</div>
-                                        </div>
-                                    </div>
             </div>
+
+            <div class="col-9 d-flex flex-column">
+                <div class="p-3 border-bottom bg-light">
+                    <div class="d-flex align-items-center mb-2">
+                        <img class="rounded-circle me-2"
+                            id="profile-image-{{ $selectedUser->id }}"
+                            src="{{ asset($selectedUser->img_path) }}"
+                            alt="Profile Image"
+                            data-user-id="{{ $selectedUser->id }}"
+                            style="width: 32px; height: 32px; object-fit: cover;">
+
+                        <div>
+                            <div class="fw-bold">{{ $selectedUser->name }}</div>
+                            <div class="fs-6 fw-semibold text-muted">{{ $selectedUser->email }}</div>
+                        </div>
+                    </div>
+                </div>
 
             <div class="flex-grow-1 p-3 overflow-y-auto d-flex flex-column gap-2 bg-light">
                 @foreach ($messages as $message)
