@@ -7,20 +7,12 @@
         <div class="">
             <h1>Chat Online</h1>
         </div>
-<!--
-    <div class="d-flex border rounded-3 shadow overflow-hidden bg-white w-100" style="height: 550px;width: 100vw;">
-        <div class="col-3 border-end bg-light">
-    <div class="p-3 fw-bold text-secondary border-bottom text-bold"><i data-feather="users" class=" me-2 icon-xs"></i>users</div>
-        <div class="overflow-auto" style="height: 500px;">
-    <div class="border-top"> -->
-            <div class="d-flex border rounded-3 shadow overflow-hidden bg-white w-100" style="height: 550px;width: 100vw;">
-                <div class="col-3 border-end bg-light d-flex flex-column" style="height: 100%;">
-                <div class="p-3 fw-bold text-secondary border-bottom text-bold">
-                    <i data-feather="users" class="me-2 icon-xs"></i>Users </div>
-                <div class="flex-grow-1 overflow-auto">
-
-
-        @foreach ($users as $user)
+        <div class="d-flex border rounded-3 shadow overflow-hidden bg-white w-100" style="height: 550px;width: 100vw;">
+            <div class="col-3 border-end bg-light d-flex flex-column" style="height: 100%;">
+            <div class="p-3 fw-bold text-secondary border-bottom text-bold">
+                <i data-feather="users" class="me-2 icon-xs"></i>Users </div>
+            <div class="flex-grow-1 overflow-auto">
+            @foreach ($users as $user)
             <div
 
                 wire:click="selectUser({{ $user->id }})"
@@ -34,15 +26,14 @@
                         alt="Profile Image"
                         data-user-id="{{ $user->id }}"
                         style="width: 32px; height: 32px; object-fit: cover;">
-                    <div>
-                        <div class="fw-bold">{{ $user->name }}</div>
-                        <div class="fs-6 fw-semibold text-muted">{{ $user->email }}</div>
-                    </div>
+                <div>
+                    <div class="fw-bold">{{ $user->name }}</div>
+                    <div class="fs-6 fw-semibold text-muted">{{ $user->email }}</div>
+                </div>
                 </div>
             </div>
-        @endforeach
-    </div>
-
+            @endforeach
+            </div>
             </div>
 
             <div class="col-9 d-flex flex-column">

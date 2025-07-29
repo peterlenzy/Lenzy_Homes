@@ -47,8 +47,8 @@
     </div>
     </div>
     <div class="card-footer">
-   <a href="{{ route('houses.index') }}" class="btn btn-outline-primary mt-3">
-    <i class="bi bi-arrow-left-circle me-2"></i> Back to Houses
+   <a href="{{ route('houses.index') }}" class="btn btn-outline-primary mt-3"><i class="bi bi-arrow-left-circle me-2"></i> Back to Houses</a>
+
 
 <script type="module" src="{{ asset('js/viewer.js') }}"></script>
 </div>
