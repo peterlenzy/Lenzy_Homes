@@ -1,4 +1,3 @@
-<!-- @vite(['resources/js/app.js']) -->
 
     <div id="app-content">
     <div class="col-12">
@@ -11,6 +10,10 @@
             <div class="col-3 border-end bg-light d-flex flex-column" style="height: 100%;">
             <div class="p-3 fw-bold text-secondary border-bottom text-bold">
                 <i data-feather="users" class="me-2 icon-xs"></i>Users </div>
+                <div class="p-2">
+                    <input type="text" id="userListSearch" class="form-control form-control-sm w-75" placeholder="Search users by name or email...">
+                </div>
+
             <div class="flex-grow-1 overflow-auto">
             @foreach ($users as $user)
             <div
@@ -18,6 +21,8 @@
                 wire:click="selectUser({{ $user->id }})"
                 class="p-3 cursor-pointer text-dark border-bottom transition {{ $selectedUser_id === $user->id ? 'bg-primary text-white' : 'hover:bg-primary-subtle' }}"
                 style="user-select: none;"
+                data-name="{{ strtolower($user->name) }}"
+                data-email="{{ strtolower($user->email) }}"
             >
                 <div class="d-flex align-items-center mb-2">
                     <img class="rounded-circle me-2"
@@ -76,4 +81,18 @@
 </div>
 </div>
 </div>
+<script>
+    document.getElementById('userListSearch').addEventListener('keyup', function () {
+        const search = this.value.toLowerCase();
+        const users = document.querySelectorAll('[data-name][data-email]');
+
+        users.forEach(user => {
+            const name = user.getAttribute('data-name');
+            const email = user.getAttribute('data-email');
+            const match = name.includes(search) || email.includes(search);
+
+            user.style.display = match ? '' : 'none';
+        });
+    });
+</script>
 

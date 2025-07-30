@@ -21,8 +21,8 @@
                         <div class="card text-dark text-bold bg-primary mb-3">
                             <div class="card-header"><i data-feather="users" class=" me-2 icon-xs"></i>Total Users Available</div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $stats['users_count'] }}</h5>
-                                <p class="card-text">Registered Users</p>
+                                <h5 class="card-title d-flex justify-content-center">{{ $stats['users_count'] }}</h5>
+                                <p class="card-text text-bold d-flex justify-content-center">Registered Users</p>
                             </div>
                         </div>
                     </div>
@@ -30,8 +30,8 @@
                         <div class="card text-dark bg-success mb-3">
                             <div class="card-header"><i data-feather="home" class="nav-icon me-2 icon-xxs"></i>Total Houses Available</div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $stats['houses_count'] }}</h5>
-                                <p class="card-text">Available Houses</p>
+                                <h5 class="card-title  d-flex justify-content-center">{{ $stats['houses_count'] }}</h5>
+                                <p class="card-text  d-flex justify-content-center">Available Houses</p>
                             </div>
                         </div>
                     </div>
@@ -39,21 +39,22 @@
                         <div class="card text-dark bg-info mb-3">
                             <div class="card-header"><i data-feather="dollar-sign" class="nav-icon me-2 icon-xxs"></i>Total Payments Available</div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $stats['payments_count'] }}</h5>
-                                <p class="card-text">Processed Payments</p>
+                                <h5 class="card-title  d-flex justify-content-center">{{ $stats['payments_count'] }}</h5>
+                                <p class="card-text  d-flex justify-content-center">Processed Payments</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            Payments Table
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
+                <div class="card">
+                <div class="card-header">
+                <h2 class="card-title text-bold">Payments Table</h2>
+                <div class="mb-3 d-flex justify-content-start">
+                    <input type="text" id="paymentSearch" class="form-control w-20" placeholder="Search payments...">
+                </div>
+                </div>
+                <div class="card-body">
+                <table id="paymentsTable" class="table table-bordered table-striped">
+                    <thead class="table-gray">
                         <tr>
                             <th>ID</th>
                             <th>Amount</th>
@@ -90,15 +91,23 @@
                         @endforelse
                     </tbody>
                 </table>
-
-                Users Table
+                </div>
+                </div>
+                <div class="card mt-4">
+                <div class="card-header">
+                <h2 class="card-title text-bold">Users Table</h2>
                 @if(session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
                 @endif
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
+                <div class="mb-3 d-flex justify-content-start">
+                   <input type="text" id="userSearch" class="form-control w-20" placeholder="Search users...">
+                </div>
+                </div>
+                <div class="card-body">
+                <table id="usersTable" class="table table-bordered table-striped">
+                    <thead class="table-gray">
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -133,6 +142,9 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -155,4 +167,25 @@
         margin-right: 0;
     }
 </style>
+<script>
+    document.getElementById('paymentSearch').addEventListener('keyup', function () {
+        let search = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#paymentsTable tbody tr');
+
+        rows.forEach(row => {
+            let text = row.textContent.toLowerCase();
+            row.style.display = text.includes(search) ? '' : 'none';
+        });
+    });
+    document.getElementById('userSearch').addEventListener('keyup', function () {
+        const search = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#usersTable tbody tr');
+
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(search) ? '' : 'none';
+        });
+    });
+</script>
+
 @endsection
