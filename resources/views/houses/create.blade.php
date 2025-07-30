@@ -15,11 +15,12 @@
 @endif
 
 <div class="container">
-    <h1>Create House</h1>
+<h1>Add a House</h1>
     <form action="{{ route('houses.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="mb-3">
-                <div class="mb-3">
+<div class="row">
+    <div class="col">
+<div class="mb-3">
     <label class="form-label">Front View</label>
     <input type="file" class="form-control" name="images[frontview]" accept="image/*">
 </div>
@@ -33,7 +34,8 @@
     <label class="form-label">Right Side View</label>
     <input type="file" class="form-control" name="images[rightview]" accept="image/*">
 </div>
-
+</div>
+<div class="col">
 <div class="mb-3">
     <label class="form-label">Left Side View</label>
     <input type="file" class="form-control" name="images[leftview]" accept="image/*">
@@ -48,10 +50,12 @@
     <label class="form-label">Interior</label>
     <input type="file" class="form-control" name="images[interior]" accept="image/*">
 </div>
+</div>
 <div class="mb-3">
     <label class="form-label">3D Model (GLTF/GLB)</label>
     <input type="file" class="form-control" name="model" accept=".gltf,.glb">
     <small class="text-muted">Upload a GLTF or GLB file for 3D viewing</small>
+</div>
 </div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
